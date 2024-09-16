@@ -12,12 +12,31 @@ public partial class JustwatchApiService : IJustwatchApiService
 	private readonly GraphQLHttpClient _graphQLClient;
 	private readonly ILogger<JustwatchApiService> _logger;
 	private readonly ICurrencyConverter _currencyConverter;
-	private readonly string _baseAddress = "https://cors-proxy.cooks.fyi/https://apis.justwatch.com";
+	private readonly string _baseAddress;
 
 	public JustwatchApiService(ILogger<JustwatchApiService> logger, ICurrencyConverter currencyConverter)
 	{
 		_logger = logger;
 		_currencyConverter = currencyConverter;
+		var corsProxies = new[]
+		{
+			"https://cors-proxy.cooks.fyi/",
+			"https://cors.jugorder.de/",
+			"https://cors-anywhere.ammoapps.com/",
+			"https://cors.svaren.dev/",
+			"https://your-cors.herokuapp.com/",
+			"https://cors.mcpsystem.com/",
+			"https://sj-cors.herokuapp.com/",
+			"https://cors-anywhere.indigital.guru/",
+			"https://cors.lanka.info/",
+			"https://cors.proxy.staging.hearxgroup.com/",
+			"https://crs-prxy.herokuapp.com/",
+			"https://corsproxy.service.echobox.com/",
+			"https://anywhere.pwisetthon.com/"
+		};
+		var random = new Random();
+		var corsProxy = corsProxies[random.Next(corsProxies.Length)];
+		_baseAddress = $"{corsProxy}https://apis.justwatch.com";
 		_graphQLClient = new GraphQLHttpClient($"{_baseAddress}/graphql", new SystemTextJsonSerializer());
 	}
 
