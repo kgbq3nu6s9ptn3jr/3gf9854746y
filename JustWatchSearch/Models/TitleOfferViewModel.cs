@@ -20,6 +20,11 @@ public class TitleOfferViewModel
 		OfferDetails?.AudioLanguages != null 
 			? string.Join(", ", OfferDetails.AudioLanguages.OrderBy(lang => lang)) 
 			: null;
+	public string? Technology =>
+		string.Join("\n",
+			(OfferDetails.VideoTechnology ?? Enumerable.Empty<string>())
+				.Concat(OfferDetails.AudioTechnology?.Select(a => a.ToString()) ?? Enumerable.Empty<string>())
+		);
 	public OfferDetails OfferDetails { get; set; }
 
 

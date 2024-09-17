@@ -30,6 +30,7 @@
 						<th>Release</th>
 						<th>Countries</th>
 						<th>IMDB</th>
+						<th>TMDB</th>
 						<th></th>
 					</tr>
 				</thead>
@@ -52,10 +53,21 @@
 								}
 							</td>
 							<td>
-								<Button class="btn btn-primary" @onclick="() => OpenMovie(title?.Node)">Prices</Button> <a class="btn btn-primary" target="_blank"
-																											   href="@($"https://justwatch.com{title?.Node?.Content?.FullPath}")">
-									Justwatch
-								</a>
+								@if (!string.IsNullOrEmpty(title?.Node?.Content?.ExternalIds?.TmdbId))
+								{
+									<a href="https://www.themoviedb.org/@title?.Node?.ObjectType.ToLower().Replace("show", "tv")/@title.Node.Content.ExternalIds.TmdbId" target="_blank">
+										@title.Node.Content.ExternalIds.TmdbId
+									</a>
+								}
+							</td>
+							<td>
+								@if(!string.IsNullOrEmpty(title?.Node?.Content?.FullPath))
+								{
+									<Button class="btn btn-primary" @onclick="() => OpenMovie(title?.Node)">Prices</Button>
+									<a class="btn btn-primary" target="_blank"  href="@($"https://justwatch.com{title?.Node?.Content?.FullPath}")">
+										Justwatch
+									</a>
+								}
 							</td>
 						</tr>
 					}
