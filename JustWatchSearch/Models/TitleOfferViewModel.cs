@@ -59,10 +59,17 @@ public class TitleOfferViewModel
 
 	private string? FormatTechnology(List<string>? videoTechnology, List<string>? audioTechnology)
 	{
-		var dataViewValue = new Dictionary<string, string>
+		var videoViewValue = new Dictionary<string, string>
 		{
 			{ "DOLBY_VISION", "Dolby Vision" },
+			{ "HDR", "HDR" },
+			{ "HDR10", "HDR10" },
+			{ "HDR10_PLUS", "HDR10 PLUS" }
+		};
+		var audioViewValue = new Dictionary<string, string>
+		{
 			{ "DOLBY_ATMOS", "Dolby Atmos" },
+			{"DOLBY_5_POINT_1", "Dolby 5.1ch"},
 			{ "_5_POINT_1", "5.1ch" }
 		};
 		var technologyList = new List<string>();
@@ -70,14 +77,14 @@ public class TitleOfferViewModel
 		{
 			foreach (var vt in videoTechnology)
 			{
-				technologyList.Add(dataViewValue.GetValueOrDefault(vt, vt));
+				technologyList.Add(videoViewValue.GetValueOrDefault(vt, vt));
 			}
 		}
 		if (audioTechnology != null)
 		{
 			foreach (var at in audioTechnology)
 			{
-				technologyList.Add(dataViewValue.GetValueOrDefault(at, at));
+				technologyList.Add(audioViewValue.GetValueOrDefault(at, at));
 			}
 		}
 		return string.Join("\n", technologyList);
