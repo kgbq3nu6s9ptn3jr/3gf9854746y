@@ -50,7 +50,7 @@ public class OfferDetails
     public List<string>? VideoTechnology { get; set; }
 
     [JsonPropertyName("audioTechnology")]
-    public List<object>? AudioTechnology { get; set; }
+    public List<string>? AudioTechnology { get; set; }
 
     [JsonPropertyName("audioLanguages")]
     public List<string>? AudioLanguages { get; set; }
