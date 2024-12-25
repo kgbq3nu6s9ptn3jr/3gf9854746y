@@ -77,14 +77,20 @@ public class TitleOfferViewModel
 		{
 			foreach (var vt in videoTechnology)
 			{
-				technologyList.Add(videoViewValue.GetValueOrDefault(vt, vt));
+				if (!string.IsNullOrEmpty(vt))
+				{
+					technologyList.Add(videoViewValue.GetValueOrDefault(vt, vt));
+				}
 			}
 		}
 		if (audioTechnology != null)
 		{
 			foreach (var at in audioTechnology)
 			{
-				technologyList.Add(audioViewValue.GetValueOrDefault(at, at));
+				if (!string.IsNullOrEmpty(at))
+				{
+					technologyList.Add(audioViewValue.GetValueOrDefault(at, at));
+				}
 			}
 		}
 		return string.Join("\n", technologyList);
