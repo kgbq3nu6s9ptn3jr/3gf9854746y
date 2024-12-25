@@ -44,22 +44,18 @@
 						FilterOperator="FilterOperator.Equals">
 				@context.PresentationType
 			</GridColumn>
-
-			<GridColumn TItem="TitleOfferViewModel" HeaderText="Monetization Type"
-						PropertyName="MonetizationType"
-						SortKeySelector="item => item.MonetizationType">
+			<GridColumn TItem="TitleOfferViewModel" HeaderText="Technology" PropertyName="Technology">
+				<div style="white-space: pre-line">
+					@context.Technology
+				</div>
+			</GridColumn>
+			<GridColumn TItem="TitleOfferViewModel" HeaderText="Monetization Type" PropertyName="MonetizationType" SortKeySelector="item => item.MonetizationType">
 				@context.MonetizationType
 			</GridColumn>
-			<GridColumn TItem="TitleOfferViewModel" HeaderText="Technology"
-						PropertyName="Technology">
-				@context.Technology
-			</GridColumn>
-			<GridColumn TItem="TitleOfferViewModel" HeaderText="Subtitle Languages"
-						PropertyName="SubtitleLanguages">
+			<GridColumn TItem="TitleOfferViewModel" HeaderText="Subtitle Languages" PropertyName="SubtitleLanguages">
 				@context.SubtitleLanguages
 			</GridColumn>
-			<GridColumn TItem="TitleOfferViewModel" HeaderText="Audio Languages"
-						PropertyName="AudioLanguages">
+			<GridColumn TItem="TitleOfferViewModel" HeaderText="Audio Languages" PropertyName="AudioLanguages">
 				@context.AudioLanguages
 			</GridColumn>
 		</Grid>
