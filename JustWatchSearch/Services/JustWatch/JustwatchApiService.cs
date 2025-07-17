@@ -91,11 +91,11 @@ public partial class JustwatchApiService : IJustwatchApiService
 		_graphQLClient = new GraphQLHttpClient($"{_baseAddress}/graphql", new SystemTextJsonSerializer());
 	}
 
-	public async Task<SearchTitlesResponse> SearchTitlesAsync(string input, CancellationToken? token)
+	public async Task<SearchTitlesResponse> SearchTitlesAsync(string input, string country, CancellationToken? token)
 	{
 		try
 		{
-			var searchResult = await _graphQLClient.SendQueryAsync<SearchTitlesResponse>(JustWatchGraphQLQueries.GetSearchTitlesQuery(input), token ?? default);
+			var searchResult = await _graphQLClient.SendQueryAsync<SearchTitlesResponse>(JustWatchGraphQLQueries.GetSearchTitlesQuery(input, country), token ?? default);
 			return searchResult.Data;
 		}
 		catch (TaskCanceledException) { throw; }

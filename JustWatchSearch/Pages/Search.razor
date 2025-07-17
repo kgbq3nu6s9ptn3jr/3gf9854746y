@@ -4,6 +4,7 @@
 
 @inject IJustwatchApiService _justWatchService
 @inject NavigationManager _navigationManager
+@inject IJSRuntime JS
 
 <PageTitle>JustWatch Search</PageTitle>
 
@@ -139,7 +140,8 @@
 	}
 	private async Task SearchMovies(string query, CancellationToken? token = null)
 	{
-		searchResponse = await _justWatchService.SearchTitlesAsync(query, token);
+		var country = await JS.InvokeAsync<string>("sessionStorage.getItem", "country") ?? "US";
+		searchResponse = await _justWatchService.SearchTitlesAsync(query, country, token);
 		StateHasChanged();
 	}
 
