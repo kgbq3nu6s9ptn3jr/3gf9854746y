@@ -17,7 +17,7 @@
             </NavLink>
         </div>
         <div class="nav-item px-3">
-            <select id="countrySelect" class="form-select" @onchange="OnCountryChanged">
+            <select id="countrySelect" class="form-select" value="@selectedCountry" @onchange="OnCountryChanged">
                 <option value="US">US</option>
                 <option value="AE">AE</option>
                 <option value="AR">AR</option>
@@ -74,12 +74,12 @@
                 <option value="ZA">ZA</option>
             </select>
         </div>
-     
     </nav>
 </div>
 
 @code {
     private bool collapseNavMenu = true;
+    private string? selectedCountry;
 
     private string? NavMenuCssClass => collapseNavMenu ? "collapse" : null;
 
@@ -90,6 +90,20 @@
 
     private async Task OnCountryChanged(ChangeEventArgs e)
     {
-        await JS.InvokeVoidAsync("sessionStorage.setItem", "country", e.Value.ToString()!);
+        selectedCountry = e.Value?.ToString();
+        await JS.InvokeVoidAsync("sessionStorage.setItem", "country", selectedCountry);
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            var storedCountry = await JS.InvokeAsync<string>("sessionStorage.getItem", "country");
+            if (!string.IsNullOrEmpty(storedCountry))
+            {
+                selectedCountry = storedCountry;
+                StateHasChanged();
+            }
+        }
     }
 }
