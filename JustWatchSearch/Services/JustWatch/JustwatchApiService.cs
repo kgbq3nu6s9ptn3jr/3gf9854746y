@@ -12,11 +12,11 @@ public partial class JustwatchApiService : IJustwatchApiService, IDisposable
 	private GraphQLHttpClient _graphQLClient;
 	private readonly ILogger<JustwatchApiService> _logger;
 	private readonly ICurrencyConverter _currencyConverter;
-	private readonly string _baseAddress;
+	private string _baseAddress;
 	private readonly CorsProxyState _corsState;
 	private readonly Random _random = new();
 
-    public JustwatchApiService(ILogger<JustwatchApiService> logger, ICurrencyConverter currencyConverter, CorsProxyState corsState)
+	public JustwatchApiService(ILogger<JustwatchApiService> logger, ICurrencyConverter currencyConverter, CorsProxyState corsState)
 	{
 		_logger = logger;
 		_currencyConverter = currencyConverter;
