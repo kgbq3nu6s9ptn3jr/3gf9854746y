@@ -12,11 +12,13 @@
 
 <div class="@NavMenuCssClass nav-scrollable">
     <nav class="flex-column">
+
         <div class="nav-item px-3">
             <NavLink class="nav-link" href="search"  Match="NavLinkMatch.Prefix">
                 <span class="bi bi-search-nav-menu" aria-hidden="true"></span> Search
             </NavLink>
         </div>
+
         <div class="nav-item px-3">
             <select id="countrySelect" class="form-select" value="@selectedCountry" @onchange="OnCountryChanged">
                 <option value="US">US</option>
@@ -75,8 +77,12 @@
                 <option value="ZA">ZA</option>
             </select>
         </div>
-        <div class="nav-item px-3">
-            <input class="form-check-input" type="checkbox" role="switch" checked="@CorsState.UseCorsProxy" @onchange="OnCorsChanged">
+
+        <div class="nav-item px-3 d-flex align-items-center">
+            <div class="form-check form-switch mb-0">
+                <input class="form-check-input" type="checkbox" id="corsSwitch" @bind="CorsState.UseCorsProxy" @onchange="OnCorsChanged" />
+                <label class="form-check-label ms-2" for="corsSwitch">CORS Proxy</label>
+            </div>
         </div>
     </nav>
 </div>
