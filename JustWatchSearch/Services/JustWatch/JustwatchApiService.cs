@@ -7,7 +7,7 @@ using System.Web;
 using static JustWatchSearch.Services.JustWatch.Responses.SearchTitlesResponse;
 namespace JustWatchSearch.Services.JustWatch;
 
-public partial class JustwatchApiService : IJustwatchApiService
+public partial class JustwatchApiService : IJustwatchApiService, IDisposable
 {
 	private GraphQLHttpClient _graphQLClient;
 	private readonly ILogger<JustwatchApiService> _logger;
