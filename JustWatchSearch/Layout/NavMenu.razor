@@ -75,10 +75,12 @@
                 <option value="ZA">ZA</option>
             </select>
         </div>
+        <div class="nav-item px-3">
+            <input class="form-check-input" type="checkbox" role="switch" checked="@CorsState.UseCorsProxy" @onchange="OnCorsChanged">
+        </div>
     </nav>
 </div>
 
-<input class="form-check-input" type="checkbox" role="switch" checked="@CorsState.UseCorsProxy" @onchange="OnCorsChanged">
 
 @code {
     private bool collapseNavMenu = true;
