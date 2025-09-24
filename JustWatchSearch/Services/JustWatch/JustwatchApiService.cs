@@ -9,9 +9,10 @@ namespace JustWatchSearch.Services.JustWatch;
 
 public partial class JustwatchApiService : IJustwatchApiService
 {
-	private readonly GraphQLHttpClient _graphQLClient;
+	private GraphQLHttpClient _graphQLClient;
 	private readonly ILogger<JustwatchApiService> _logger;
 	private readonly ICurrencyConverter _currencyConverter;
+	private readonly string _baseAddress;
 	private readonly CorsProxyState _corsState;
 	private readonly Random _random = new();
 
@@ -94,20 +95,19 @@ public partial class JustwatchApiService : IJustwatchApiService
 			"https://your-cors.herokuapp.com/"
 		};
 
-        string baseAddress;
         if (_corsState.UseCorsProxy)
         {
             var corsProxy = corsProxies[_random.Next(corsProxies.Length)];
-            baseAddress = $"{corsProxy}https://apis.justwatch.com";
+            _baseAddress = $"{corsProxy}https://apis.justwatch.com";
         }
         else
         {
-            baseAddress = "https://apis.justwatch.com";
+            _baseAddress = "https://apis.justwatch.com";
         }
 
         _graphQLClient?.Dispose();
-        _graphQLClient = new GraphQLHttpClient($"{baseAddress}/graphql", new SystemTextJsonSerializer());
-        _logger.LogInformation("GraphQL client created with base: {base}", baseAddress);
+        _graphQLClient = new GraphQLHttpClient($"{_baseAddress}/graphql", new SystemTextJsonSerializer());
+        _logger.LogInformation("GraphQL client created with base: {base}", _baseAddress);
     }
 
     private void HandleCorsChange()
