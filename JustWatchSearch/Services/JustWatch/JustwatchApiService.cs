@@ -12,13 +12,21 @@ public partial class JustwatchApiService : IJustwatchApiService
 	private readonly GraphQLHttpClient _graphQLClient;
 	private readonly ILogger<JustwatchApiService> _logger;
 	private readonly ICurrencyConverter _currencyConverter;
-	private readonly string _baseAddress;
+	private readonly CorsProxyState _corsState;
+	private readonly Random _random = new();
 
-	public JustwatchApiService(ILogger<JustwatchApiService> logger, ICurrencyConverter currencyConverter)
+    public JustwatchApiService(ILogger<JustwatchApiService> logger, ICurrencyConverter currencyConverter, CorsProxyState corsState)
 	{
 		_logger = logger;
 		_currencyConverter = currencyConverter;
-		var corsProxies = new[]
+		_corsState = corsState;
+		_corsState.OnChange += HandleCorsChange;
+		CreateClient();
+	}
+
+    private void CreateClient()
+    {
+        var corsProxies = new[]
 		{
 			"https://anywhere.pwisetthon.com/",
 			"https://app004.sitetheory.io/",
@@ -85,11 +93,33 @@ public partial class JustwatchApiService : IJustwatchApiService
 			"https://warm-caverns-48629-92fab798385f.herokuapp.com/",
 			"https://your-cors.herokuapp.com/"
 		};
-		var random = new Random();
-		var corsProxy = corsProxies[random.Next(corsProxies.Length)];
-		_baseAddress = $"{corsProxy}https://apis.justwatch.com";
-		_graphQLClient = new GraphQLHttpClient($"{_baseAddress}/graphql", new SystemTextJsonSerializer());
-	}
+
+        string baseAddress;
+        if (_corsState.UseCorsProxy)
+        {
+            var corsProxy = corsProxies[_random.Next(corsProxies.Length)];
+            baseAddress = $"{corsProxy}https://apis.justwatch.com";
+        }
+        else
+        {
+            baseAddress = "https://apis.justwatch.com";
+        }
+
+        _graphQLClient?.Dispose();
+        _graphQLClient = new GraphQLHttpClient($"{baseAddress}/graphql", new SystemTextJsonSerializer());
+        _logger.LogInformation("GraphQL client created with base: {base}", baseAddress);
+    }
+
+    private void HandleCorsChange()
+    {
+        CreateClient();
+    }
+
+    public void Dispose()
+    {
+        _graphQLClient?.Dispose();
+        _corsState.OnChange -= HandleCorsChange;
+    }
 
 	public async Task<SearchTitlesResponse> SearchTitlesAsync(string input, string country, CancellationToken? token)
 	{
